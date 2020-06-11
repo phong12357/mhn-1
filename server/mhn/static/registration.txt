@@ -14,7 +14,7 @@ hostname=$(hostname)
 
 if [ -f /etc/debian_version ]; then
     OS=Debian  # XXX or Ubuntu??
-    sudo apt-get install -y curl python
+    sudo apt-get install -y curl python3
 
 elif [ -f /etc/redhat-release ]; then
     OS=RHEL
@@ -33,7 +33,7 @@ curl -s -X POST -H "Content-Type: application/json" -d "{
 	\"honeypot\": \"$honeypot\"
 }" $server_url/api/sensor/ > /tmp/deploy.json
 
-uuid=$(python -c 'import json;obj=json.load(file("/tmp/deploy.json"));print obj["uuid"]')
+uuid=$(python3 -c 'import json;obj=json.load(file("/tmp/deploy.json"));print obj["uuid"]')
 
 if [ -z "$uuid" ]
     then
@@ -49,6 +49,6 @@ echo "Created sensor: " $uuid
 # hpfeeds info
 export HPF_HOST=$(echo $server_url | sed 's#^http://##; s#^https://##; s#/.*$##; s/:.*$//')
 export HPF_PORT="10000"
-export HPF_IDENT=$(python -c 'import json;obj=json.load(file("/tmp/deploy.json"));print obj["identifier"]')
-export HPF_SECRET=$(python -c 'import json;obj=json.load(file("/tmp/deploy.json"));print obj["secret"]')
+export HPF_IDENT=$(python3 -c 'import json;obj=json.load(file("/tmp/deploy.json"));print obj["identifier"]')
+export HPF_SECRET=$(python3 -c 'import json;obj=json.load(file("/tmp/deploy.json"));print obj["secret"]')
 ######################################################
